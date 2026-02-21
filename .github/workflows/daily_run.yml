@@ -1,0 +1,38 @@
+name: Daily Colab Run
+on:
+  schedule:
+    # 6:00 PM EST is 11:00 PM UTC (assuming no DST). 
+    # Use '0 23 * * *' for 11pm UTC.
+    - cron: '0 23 * * *' 
+  workflow_dispatch: # This adds a "Run now" button for testing
+
+jobs:
+      run-notebook:
+        runs-on: ubuntu-latest
+        # This 'env' section is the bridge
+        env:
+          MY_SECRET_FOR_PYTHON: ${{ secrets.cambridge_city }} 
+        steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: |
+          pip install papermill ipykernel
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Execute Notebook
+        run: |
+          papermill your_notebook_name.ipynb output_results.ipynb
+
+      - name: Save Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: notebook-results
+          path: output_results.ipynb
