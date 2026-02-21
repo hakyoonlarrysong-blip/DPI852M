@@ -1,7 +1,7 @@
 name: Daily Cambridge Sanitation Dashboard Update
 on:
   schedule:
-    - cron: '0 23 * * *'
+    - cron: '0 23 * * *' # Runs at 6 PM EST
   workflow_dispatch: 
 
 jobs:
@@ -21,8 +21,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          # Added nltk for your sentiment analysis
-          pip install papermill ipykernel pandas sodapy requests matplotlib seaborn nltk
+          # Added numpy and nltk for your analysis cells
+          pip install papermill ipykernel pandas sodapy requests matplotlib seaborn nltk numpy
 
       - name: Execute Notebook
         run: |
