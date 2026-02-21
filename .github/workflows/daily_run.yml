@@ -11,7 +11,7 @@ jobs:
         runs-on: ubuntu-latest
         # This 'env' section is the bridge
         env:
-          MY_SECRET_FOR_PYTHON: ${{ secrets.cambridge_city }} 
+          MY_SECRET_FOR_PYTHON: ${{ secrets.CITY_DATA_API_KEY }} 
         steps:
       - name: Checkout Code
         uses: actions/checkout@v4
