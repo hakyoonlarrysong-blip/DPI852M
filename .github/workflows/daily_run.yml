@@ -1,38 +1,40 @@
-name: Daily Colab Run
+name: Daily Cambridge Sanitation Dashboard Update
 on:
   schedule:
-    # 6:00 PM EST is 11:00 PM UTC (assuming no DST). 
-    # Use '0 23 * * *' for 11pm UTC.
-    - cron: '0 23 * * *' 
-  workflow_dispatch: # This adds a "Run now" button for testing
+    # 6:00 PM EST (Cambridge Time) is 23:00 UTC
+    - cron: '0 23 * * *'
+  workflow_dispatch: # Allows you to run it manually to test
 
 jobs:
-      run-notebook:
-        runs-on: ubuntu-latest
-        # This 'env' section is the bridge
-        env:
-          MY_SECRET_FOR_PYTHON: ${{ secrets.CITY_DATA_API_KEY }} 
-        steps:
-      - name: Checkout Code
+  run-analysis:
+    runs-on: ubuntu-latest
+    
+    env:
+      # This bridges the GitHub secret to your Python code
+      CAMBRIDGE_CITY_SECRET: ${{ secrets.CITY_DATA_API_KEY }}
+
+    steps:
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
+          cache: 'pip'
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: |
-          pip install papermill ipykernel
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install papermill ipykernel pandas sodapy requests
 
       - name: Execute Notebook
         run: |
+          # CHANGE THIS to your actual filename (e.g., project_dashboard.ipynb)
           papermill Copy of Project 1.ipynb output_results.ipynb
 
-      - name: Save Results
+      - name: Upload Finished Notebook
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: notebook-results
+          name: daily-dashboard-output
           path: output_results.ipynb
