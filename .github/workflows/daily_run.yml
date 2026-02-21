@@ -1,7 +1,7 @@
 name: Daily Cambridge Sanitation Dashboard Update
 on:
   schedule:
-    - cron: '0 23 * * *' # Runs at 6 PM EST
+    - cron: '0 22 * * *' # Runs at 5 PM EST
   workflow_dispatch: 
 
 jobs:
