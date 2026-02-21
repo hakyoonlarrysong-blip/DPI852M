@@ -7,7 +7,6 @@ on:
 jobs:
   run-analysis:
     runs-on: ubuntu-latest
-    
     env:
       CAMBRIDGE_CITY_SECRET: ${{ secrets.CITY_DATA_API_KEY }}
 
@@ -22,8 +21,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          # We install everything directly here to avoid the "missing file" error
-          pip install papermill ipykernel pandas sodapy requests
+          # Added nltk for your sentiment analysis
+          pip install papermill ipykernel pandas sodapy requests matplotlib seaborn nltk
 
       - name: Execute Notebook
         run: |
