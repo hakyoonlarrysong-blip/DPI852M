@@ -22,12 +22,12 @@ jobs:
 
       - name: Install dependencies
         run: |
+          # We install everything directly here to avoid the "missing file" error
           pip install papermill ipykernel pandas sodapy requests
 
       - name: Execute Notebook
         run: |
-          # IMPORTANT: Replace 'DPI852M.ipynb' with the EXACT name of your file in the repo
-          papermill Copy of Project 1.ipynb output_results.ipynb
+          papermill Project1.ipynb output_results.ipynb
 
       - name: Upload Finished Notebook
         if: always()
