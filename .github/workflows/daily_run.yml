@@ -28,7 +28,7 @@ jobs:
 
       - name: Execute Notebook
         run: |
-          papermill your_notebook_name.ipynb output_results.ipynb
+          papermill Copy of Project 1.ipynb output_results.ipynb
 
       - name: Save Results
         if: always()
