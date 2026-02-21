@@ -1,16 +1,14 @@
 name: Daily Cambridge Sanitation Dashboard Update
 on:
   schedule:
-    # 6:00 PM EST (Cambridge Time) is 23:00 UTC
     - cron: '0 23 * * *'
-  workflow_dispatch: # Allows you to run it manually to test
+  workflow_dispatch: 
 
 jobs:
   run-analysis:
     runs-on: ubuntu-latest
     
     env:
-      # This bridges the GitHub secret to your Python code
       CAMBRIDGE_CITY_SECRET: ${{ secrets.CITY_DATA_API_KEY }}
 
     steps:
@@ -21,7 +19,6 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
-          cache: 'pip'
 
       - name: Install dependencies
         run: |
@@ -29,7 +26,7 @@ jobs:
 
       - name: Execute Notebook
         run: |
-          # CHANGE THIS to your actual filename (e.g., project_dashboard.ipynb)
+          # IMPORTANT: Replace 'DPI852M.ipynb' with the EXACT name of your file in the repo
           papermill Copy of Project 1.ipynb output_results.ipynb
 
       - name: Upload Finished Notebook
